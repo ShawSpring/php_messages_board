@@ -66,3 +66,7 @@ sprintf("select id,title,content from message order by id desc limit %d,%d ",($p
             return temp;
         }
 ```
+
+## 坑之浏览器缓存
+在开发中，有些东西明明修改了，但是浏览器显示仍未修改，很有可能是浏览器的缓存在作怪，特别是**static/**文件夹中的静态文件
+f12网络条件中可以设置<span style='color:red'>禁用缓存</span>,或者直接打开private隐私窗口
