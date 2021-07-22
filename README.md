@@ -2,7 +2,7 @@
 用到了 juqery ajax mysql kindeditor
 数据库图简单就设了三个字段 id(int paimary),title(varchar(255)),content(text)
 
-## kindeditor 副文本编辑器插件
+## kindeditor 富文本编辑器插件
 [官方文档](http://kindeditor.net/doc.php)
 核心使用 textarea输入框 + 创建editor对象(原来的textarea被display:none)
 ```html
