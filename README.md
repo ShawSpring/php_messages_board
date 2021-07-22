@@ -10,6 +10,8 @@
         KindEditor.ready(function(K) {
                 window.editor = K.create('#editor_id');
         });
+        // 获取数据
+        editor.html()
 </script>
 ```
 
