@@ -42,14 +42,21 @@ sprintf("select id,title,content from message order by id desc limit %d,%d ",($p
     $sql = sprintf("select count(id) from message where title like '%%%s%%' or content like '%%%s%%' order by id desc",$search,$search);
 ```
 
-## 坑之 注意程序运行的顺序，有时不得不  ajax设置为同步 async: false,
-如翻页功能，必须要等后台返回 总记录条数， 才能在后边html里显示 总记录条数，因此前边ajax获取需要
+## 坑之 注意程序运行的顺序，有时不得不（但是尽量不）  ajax设置为同步 async: false,
+如翻页功能，可以等后台返回 总记录条数， 才能在后边html里显示 总记录条数，因此前边ajax获取需要
 ```php
  $.ajax({
                     async: false, 
                     url: "totalnums.php",
                     ... })
 ```
+也可以 将依赖 ajax返回的代码写到success里，这个返回有点时间，可以模仿文件操作，加锁，如：
+```javascript
+// 防止total 未更新就点击按钮 导致bug  
+                        $("#prev").attr({ disabled: false })
+                        $("#next").attr({ disabled: false })
+```
+
 ## 坑之html实体
 浏览器渲染后 出现 &nbsp;&amp; &lt;&gt; 等实体字符，这是从后台拿来的raw数据没解码
 ```javascript
@@ -63,6 +70,18 @@ sprintf("select id,title,content from message order by id desc limit %d,%d ",($p
             temp = temp.replace(/&nbsp;/g, " ");
             temp = temp.replace(/&#39;/g, "\'");
             temp = temp.replace(/&quot;/g, "\"");
+            return temp;
+        }
+ //html编码，字符串转为实体
+        function htmlEncodeByRegExp(str) {
+            var temp = "";
+            if (str.length == 0) return "";
+            temp = str.replace(/&/g, "&amp;");
+            temp = temp.replace(/</g, "&lt;");
+            temp = temp.replace(/>/g, "&gt;");
+            temp = temp.replace(/\s/g, "&nbsp;");
+            temp = temp.replace(/\'/g, "&#39;");
+            temp = temp.replace(/\"/g, "&quot;");
             return temp;
         }
 ```
